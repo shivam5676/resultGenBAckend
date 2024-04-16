@@ -1,10 +1,18 @@
-const express=require("express")
-const multer=require("multer")
-const upload=multer()
-const router=express.Router();
+const express = require("express");
+const multer = require("multer");
+const csvParser = require("csv-parser");
+const { uploadKey } = require("../controllers/uploadKey");
+const { uploadData } = require("../controllers/uploadData");
+const { generateCsv } = require("../controllers/generateCsv");
 
 
-router.post("/upload",upload.single("keyFile"),(req,res,next)=>{
-    console.log(req.file)
-})
-module.exports=router;
+const upload = multer();
+const router = express.Router();
+
+router.post("/upload/key", upload.single("keyFile"), uploadKey);
+router.post("/upload/data", upload.single("dataFile"), uploadData);
+router.post("/generate/csv",generateCsv)
+
+
+
+module.exports = router;
